@@ -411,7 +411,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 1</div>
   <h2>El misterio del sonido</h2>
   <p class="lead">Todo lo que escuchamos es una vibración que cambia en el tiempo. Vista en un osciloscopio parece un garabato. La idea de Fourier es que ese garabato tiene orden adentro.</p>
-  <div class="media-chips"><button class="mchip" data-vid="0"><span class="ic">▶</span>Video <span class="tm">0:00 – 1:43</span></button><button class="mchip au" data-aud="0"><span class="ic">♪</span>Audio <span class="tm">0:00 – 2:50</span></button><button class="mchip au" data-aud="274"><span class="ic">♪</span>Audio <span class="tm">4:34 – 5:54</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="0"><span class="ic">▶</span>Video · presentación <span class="tm">0:00 – 1:43</span></button><button class="mchip au" data-aud="0"><span class="ic">♪</span>Audio · violín y flauta <span class="tm">0:00 – 2:50</span></button><button class="mchip au" data-aud="274"><span class="ic">♪</span>Audio · separar una mezcla <span class="tm">4:34 – 5:54</span></button></div>
 
   <div class="act" data-act="mis1">
     <div class="tt">Antes de leer · escuchá y anticipá</div>
@@ -433,14 +433,18 @@ details.como[open] summary{margin-bottom:8px}
 
   <div class="def">
     <div class="tt">Una señal en el tiempo</div>
-    Llamamos <b>señal</b> a cualquier magnitud que cambia con el tiempo: la presión del aire que llega al oído, la tensión en un circuito, la aceleración de la carcasa de un motor. La escribimos \(f(t)\). Las que nos interesan son las <b>periódicas</b>: las que repiten exactamente el mismo dibujo una y otra vez.
+    Llamamos <b>señal</b> a algo que cambia con el tiempo, como la presión del aire que llega a tu oído; la escribimos \(f(t)\). Es <b>periódica</b> si repite exactamente el mismo dibujo una y otra vez.
   </div>
 
   <h3>El poder de separar</h3>
   <p>En un recital, la batería, el bajo, la guitarra y la voz no viajan por cables separados hasta tu oído: llegan mezclados en una única onda de presión. Y sin embargo podés seguir solo la línea del bajo, o solo la voz. Tu oído separa la mezcla en sus componentes, como un prisma separa la luz blanca en colores.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 680 220" width="100%" style="max-width:620px;display:block;margin:0 auto;font-family:'Hanken Grotesk',sans-serif" role="img" aria-label="Un haz de luz blanca entra en un prisma de vidrio y sale abierto en un abanico de colores, del rojo al violeta"><polygon points="320,30 230,190 410,190" fill="#eaf1fb" stroke="#5b6b86" stroke-width="2" stroke-linejoin="round"/><line x1="30" y1="166" x2="270.5" y2="118" stroke="#9a948a" stroke-width="9" stroke-linecap="round"/><line x1="30" y1="166" x2="270.5" y2="118" stroke="#ffffff" stroke-width="5" stroke-linecap="round"/><line x1="270.5" y1="118" x2="367.7" y2="114.8" stroke="#d7263d" stroke-width="2" opacity=".75"/><line x1="367.7" y1="114.8" x2="600" y2="128" stroke="#d7263d" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="369.9" y2="118.8" stroke="#f28c28" stroke-width="2" opacity=".75"/><line x1="369.9" y1="118.8" x2="600" y2="141" stroke="#f28c28" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="372.2" y2="122.8" stroke="#e3b505" stroke-width="2" opacity=".75"/><line x1="372.2" y1="122.8" x2="600" y2="154" stroke="#e3b505" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="374.4" y2="126.8" stroke="#3fa34d" stroke-width="2" opacity=".75"/><line x1="374.4" y1="126.8" x2="600" y2="167" stroke="#3fa34d" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="376.7" y2="130.8" stroke="#2f6fd6" stroke-width="2" opacity=".75"/><line x1="376.7" y1="130.8" x2="600" y2="180" stroke="#2f6fd6" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="378.9" y2="134.8" stroke="#4b3fb0" stroke-width="2" opacity=".75"/><line x1="378.9" y1="134.8" x2="600" y2="193" stroke="#4b3fb0" stroke-width="4" stroke-linecap="round"/><line x1="270.5" y1="118" x2="381.2" y2="138.8" stroke="#8a3fb8" stroke-width="2" opacity=".75"/><line x1="381.2" y1="138.8" x2="600" y2="206" stroke="#8a3fb8" stroke-width="4" stroke-linecap="round"/><text x="60" y="146" font-size="19" fill="#3d4a5c" transform="rotate(-11.3 60 146)">luz blanca</text><text x="606" y="134" font-size="18" fill="#3d4a5c">rojo</text><text x="606" y="212" font-size="18" fill="#3d4a5c">violeta</text></svg>
+    <figcaption>La luz blanca entra mezclada y el prisma la abre en sus colores. Fourier hace lo mismo con una señal: la abre en sus ondas simples.</figcaption>
+  </figure>
   <div class="def">
     <div class="tt">El principio de Fourier</div>
-    Toda señal periódica, por complicada que sea, es una <b>suma de ondas simples</b>: senos y cosenos, cada uno en su propia <b>cantidad</b>. Cambiar esas cantidades cambia la forma de la señal y, si es un sonido, cómo suena.
+    Toda señal periódica es una <b>suma de ondas simples</b>, senos y cosenos, cada una en su propia <b>cantidad</b>. Si cambian las cantidades, cambia la forma de la señal y, si es un sonido, cómo suena.
   </div>
   <figure class="fig">
     <svg id="figSeparar" viewBox="0 0 640 300" width="100%" style="max-width:640px;display:block;margin:0 auto" role="img" aria-label="Una señal complicada arriba y, debajo, las tres sinusoides que sumadas la forman"></svg>
@@ -478,7 +482,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 2</div>
   <h2>Los ladrillos: período, frecuencia y pulsación</h2>
   <p class="lead">Antes de mezclar ondas hay que saber medir una. De una señal periódica salen tres números, y hay que aprender a no confundirlos.</p>
-  <div class="media-chips"><button class="mchip" data-vid="103"><span class="ic">▶</span>Video <span class="tm">1:43 – 2:53</span></button><button class="mchip au" data-aud="172"><span class="ic">♪</span>Audio <span class="tm">2:52 – 3:33</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="103"><span class="ic">▶</span>Video · funciones periódicas <span class="tm">1:43 – 2:53</span></button><button class="mchip au" data-aud="172"><span class="ic">♪</span>Audio · frecuencia <span class="tm">2:52 – 3:33</span></button></div>
 
   <div class="antes"><div class="tt">Antes de leer · pensalo</div>Un ventilador da \(20\) vueltas por segundo. ¿Cuánto tarda en dar una vuelta? Respondé mentalmente y seguí leyendo: la respuesta está más abajo.</div>
 
@@ -557,7 +561,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 3</div>
   <h2>Los armónicos: el ritmo multiplicado</h2>
   <p class="lead">Con una onda base podemos fabricar copias que oscilan el doble de rápido, el triple, el cuádruple… Esas copias son los ingredientes de toda la receta.</p>
-  <div class="media-chips"><button class="mchip au" data-aud="213"><span class="ic">♪</span>Audio <span class="tm">3:33 – 4:34</span></button></div>
+  <div class="media-chips"><button class="mchip au" data-aud="213"><span class="ic">♪</span>Audio · armónicos <span class="tm">3:33 – 4:34</span></button></div>
 
   <div class="act" data-act="arm0">
     <div class="tt">Antes de leer · anticipá</div>
@@ -647,7 +651,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 4</div>
   <h2>La receta de Fourier</h2>
   <p class="lead">La fórmula parece intimidante, pero dice algo sencillo: la señal es un nivel de base más un poco de cada armónico. Cada «poco» es un coeficiente.</p>
-  <div class="media-chips"><button class="mchip" data-vid="173"><span class="ic">▶</span>Video <span class="tm">2:53 – 4:07</span></button><button class="mchip au" data-aud="631"><span class="ic">♪</span>Audio <span class="tm">10:31 – 11:33</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="173"><span class="ic">▶</span>Video · la receta <span class="tm">2:53 – 4:07</span></button><button class="mchip au" data-aud="631"><span class="ic">♪</span>Audio · consola de mezclas <span class="tm">10:31 – 11:33</span></button></div>
 
   <div class="antes"><div class="tt">Antes de leer · pensalo</div>Una señal pasa la mitad del tiempo en \(6\) y la otra mitad en \(0\). ¿Alrededor de qué nivel «se mueve»? Guardá tu respuesta: en esta sección aparece con nombre propio.</div>
 
@@ -753,7 +757,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 5</div>
   <h2>Calcular el espectro: los coeficientes</h2>
   <p class="lead">Hasta acá los coeficientes nos los daban. El problema importante es el inverso: dada la señal, encontrar cuánto hay de cada armónico. Se hace con integrales sobre un período, que funcionan como filtros.</p>
-  <div class="media-chips"><button class="mchip" data-vid="196"><span class="ic">▶</span>Video <span class="tm">3:16 – 3:44</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="196"><span class="ic">▶</span>Video · los coeficientes <span class="tm">3:16 – 3:44</span></button></div>
 
   <div class="def">
     <div class="tt">Fórmulas de los coeficientes</div>
@@ -854,7 +858,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 6</div>
   <h2>El atajo: la paridad</h2>
   <p class="lead">Mirando la simetría del gráfico, antes de hacer una sola integral, se puede saber qué coeficientes valen cero. Es la mitad del trabajo, gratis.</p>
-  <div class="media-chips"><button class="mchip" data-vid="247"><span class="ic">▶</span>Video <span class="tm">4:07 – 4:54</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="247"><span class="ic">▶</span>Video · paridad <span class="tm">4:07 – 4:54</span></button></div>
 
   <div class="def">
     <div class="tt">Funciones pares e impares</div>
@@ -933,7 +937,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 7</div>
   <h2>Caso de estudio: sintetizar la onda cuadrada</h2>
   <p class="lead">Una onda cuadrada tiene esquinas y saltos; un seno es una colina suave. ¿Cómo puede ser que sumando colinas salga un escalón? Esta sección lo muestra armónico por armónico, y descubre lo que nunca se termina de arreglar.</p>
-  <div class="media-chips"><button class="mchip au" data-aud="354"><span class="ic">♪</span>Audio <span class="tm">5:54 – 8:24</span></button><button class="mchip au" data-aud="504"><span class="ic">♪</span>Audio <span class="tm">8:24 – 10:31</span></button></div>
+  <div class="media-chips"><button class="mchip au" data-aud="354"><span class="ic">♪</span>Audio · la cuadrada <span class="tm">5:54 – 8:24</span></button><button class="mchip au" data-aud="504"><span class="ic">♪</span>Audio · Gibbs <span class="tm">8:24 – 10:31</span></button></div>
 
   <div class="act" data-act="cua0">
     <div class="tt">Antes de leer · anticipá</div>
@@ -1029,7 +1033,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 8</div>
   <h2>Otra forma, otra receta</h2>
   <p class="lead">Distintas formas de onda tienen espectros distintos. Comparar el diente de sierra y la onda triangular con la cuadrada deja una regla muy útil: cuanto más suave la señal, más rápido se achican sus coeficientes.</p>
-  <div class="media-chips"><button class="mchip" data-vid="316"><span class="ic">▶</span>Video <span class="tm">5:16 – 5:40</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="316"><span class="ic">▶</span>Video · sintetizadores <span class="tm">5:16 – 5:40</span></button></div>
 
   <div class="grid2">
     <div class="def" style="margin:8px 0">
@@ -1113,7 +1117,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 9</div>
   <h2>El espectro musical: el timbre</h2>
   <p class="lead">Volvemos al misterio del principio. La nota la decide la fundamental; el «color» del sonido, la receta de armónicos. Escuchalo.</p>
-  <div class="media-chips"><button class="mchip" data-vid="294"><span class="ic">▶</span>Video <span class="tm">4:54 – 6:02</span></button><button class="mchip au" data-aud="693"><span class="ic">♪</span>Audio <span class="tm">11:33 – 13:54</span></button></div>
+  <div class="media-chips"><button class="mchip" data-vid="294"><span class="ic">▶</span>Video · espectro musical <span class="tm">4:54 – 6:02</span></button><button class="mchip au" data-aud="693"><span class="ic">♪</span>Audio · el timbre <span class="tm">11:33 – 13:54</span></button></div>
 
   <div class="def">
     <div class="tt">Nota y timbre</div>
@@ -1176,7 +1180,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="badge">Sección 10</div>
   <h2>¿Para qué sirve esto en el mundo real?</h2>
   <p class="lead">Una vez que una señal está escrita como espectro, se puede trabajar sobre cada frecuencia por separado: apagar las que molestan, guardar solo las que importan, o leer en ellas lo que le pasa a una máquina.</p>
-  <div class="media-chips"><button class="mchip au" data-aud="834"><span class="ic">♪</span>Audio <span class="tm">13:54 – 17:30</span></button><button class="mchip" data-vid="79"><span class="ic">▶</span>Video <span class="tm">1:19 – 1:43</span></button></div>
+  <div class="media-chips"><button class="mchip au" data-aud="834"><span class="ic">♪</span>Audio · aplicaciones <span class="tm">13:54 – 17:30</span></button><button class="mchip" data-vid="79"><span class="ic">▶</span>Video · el misterio <span class="tm">1:19 – 1:43</span></button></div>
 
   <div class="grid2">
     <div class="card" style="margin:8px 0"><b>Eliminar el ruido.</b> En audio y telecomunicaciones, el ruido suele estar en frecuencias distintas de la señal. Se pasa al espectro, se <b>apagan los coeficientes</b> de esas frecuencias y se vuelve a sumar. Es lo que hace un filtro.</div>
@@ -1635,20 +1639,26 @@ function renderCaps(){
   $('#audCaps').innerHTML = ACAPS.map(([s, t]) => `<button data-aseek="${s}"><span class="tm">${mmss(s)}</span>${t}</button>`).join('');
 }
 function cargarBlob(m, s){
+  if (s != null) m._t = s;
   if (m.dataset.blob) return; m.dataset.blob = '1';
   const src = $('source', m); const u = src ? src.getAttribute('src') : m.getAttribute('src');
   const pedir = /^data:/.test(u) ? new Promise((ok, mal) => { try { const i = u.indexOf(','), bin = atob(u.slice(i + 1)), a = new Uint8Array(bin.length); for (let k = 0; k < bin.length; k++) a[k] = bin.charCodeAt(k); ok(new Blob([a], { type: u.slice(5, u.indexOf(';')) })); } catch (e) { mal(e); } })
     : fetch(u).then(r => { if (!r.ok) throw 0; return r.blob(); });
   pedir.then(b => {
     m.src = URL.createObjectURL(b); m.load();
-    m.addEventListener('loadedmetadata', () => { try { m.currentTime = s||0; } catch(_){} const p = m.play(); if (p && p.catch) p.catch(() => {}); }, {once:true});
+    m.addEventListener('loadedmetadata', () => { try { m.currentTime = m._t||0; } catch(_){} if (m.closest('.media-modal.show')) { const p = m.play(); if (p && p.catch) p.catch(() => {}); } }, {once:true});
   }).catch(() => $('#' + m.id + 'Err').classList.add('show'));
 }
 function seek(el, s){
-  const go = () => { try { el.currentTime = s; } catch(_){} const p = el.play(); if (p && p.catch) p.catch(() => {}); };
+  el._t = s;
+  const go = () => { try { el.currentTime = el._t; } catch(_){} const p = el.play(); if (p && p.catch) p.catch(() => {}); };
   if (el.readyState >= 1) { go(); return; }
-  el.preload = 'metadata'; el.addEventListener('loadedmetadata', go, {once:true}); try { el.load(); } catch(_){}
-  setTimeout(() => { if (el.readyState === 0) cargarBlob(el, s); }, 3500);
+  if (el.dataset.blob) return;
+  const src = $('source', el), u = src ? src.getAttribute('src') : el.getAttribute('src');
+  if (/^data:/.test(u)) { cargarBlob(el); return; }
+  if (el.dataset.esperando) return; el.dataset.esperando = '1';
+  el.preload = 'metadata'; el.addEventListener('loadedmetadata', () => { delete el.dataset.esperando; go(); }, {once:true}); try { el.load(); } catch(_){}
+  setTimeout(() => { if (el.readyState === 0) cargarBlob(el); }, 3500);
 }
 function abrirVideo(s){ $('#vidModal').classList.add('show'); seek($('#vid'), s); }
 function abrirAudio(s){ $('#audModal').classList.add('show'); seek($('#aud'), s); }
@@ -2372,7 +2382,7 @@ function start(){
   restaurar();
   ['vid','aud'].forEach(id => {
     const m = document.getElementById(id); m.addEventListener('timeupdate', marcarCap);
-    const falla = () => { if (!m.dataset.blob) cargarBlob(m, m.currentTime); else $('#' + id + 'Err').classList.add('show'); };
+    const falla = () => { if (!m.dataset.blob) cargarBlob(m); else $('#' + id + 'Err').classList.add('show'); };
     m.addEventListener('error', falla, true); const src = $('source', m); if (src) src.addEventListener('error', falla);
   });
   $$('img[src="poster.jpg"]').forEach(im => im.addEventListener('error', () => { im.style.display = 'none'; }));
