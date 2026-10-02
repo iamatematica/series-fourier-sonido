@@ -280,6 +280,13 @@ canvas{width:100%;height:auto;display:block;border-radius:10px;background:#fff;b
 .etapas b{display:block;font-family:'Fraunces',serif;font-weight:700;color:var(--navy)}
 .etapas span{font-size:.86rem;color:var(--muted)}
 .rep-card{border-top:4px solid var(--blue)}
+.rep-pts{background:#f4f7fb;border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin:6px 0 4px}
+.rep-total{font-size:1.05rem;color:var(--navy);margin-bottom:6px}
+.rep-total b{font-size:1.6rem;color:var(--blue)}
+.rep-total span{color:var(--muted);font-size:.92rem}
+.rep-fila{display:grid;grid-template-columns:1.2fr 1fr auto;gap:8px;font-size:.88rem;padding:4px 0;border-top:1px solid var(--line)}
+.rep-fila span:nth-child(2){color:var(--muted)}
+@media (max-width:480px){.rep-fila{grid-template-columns:1fr auto}.rep-fila span:nth-child(2){grid-column:1;grid-row:2;font-size:.8rem}}
 .rep-datos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}
 .rep-datos label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--muted)}
 .rep-datos input{font:500 1rem 'Hanken Grotesk',sans-serif;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy)}
@@ -1510,6 +1517,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="card rep-card" id="reporte">
     <h3 style="margin-top:0">Reporte del recorrido</h3>
     <p style="margin-top:0">Completá tus datos y descargá el reporte en PDF para subirlo a la tarea de Classroom. Resume lo que hiciste en cada sección, los ejercicios, el cuestionario, las tarjetas y los desafíos de sonido.</p>
+    <div class="rep-pts" id="repPuntaje"></div>
     <div class="rep-datos">
       <label>Apellido y nombre<input type="text" id="repNombre" autocomplete="name" placeholder="Ej.: Pérez, Ana"></label>
       <label>Curso y división<input type="text" id="repCurso" placeholder="Ej.: 5.º 2.ª"></label>
@@ -1692,6 +1700,7 @@ function navDone(){
   let n = 0;
   $$('#pills .pill').forEach(b => { const d = seccionCompleta(b.dataset.go); b.classList.toggle('done', d); if (d) n++; });
   $('#capP').textContent = `${n} de ${SECS.length} completas`;
+  mostrarPuntaje();
   const r = $('#resumenProg'); if (r) r.innerHTML = `<span>secciones completas <b>${n}</b> de ${SECS.length}</span><span>ejercicios <b>${practicaOk()}</b> de 12</span><span>cuestionario <b>${quizOk()}</b> de ${DATOS.Q.length}</span><span>tarjetas que sabés <b>${Object.values(ST.fc.sabe).filter(Boolean).length}</b> de ${DATOS.F.length}</span>`;
 }
 
@@ -1700,8 +1709,31 @@ function navDone(){
 const RETO_NOM = {flauta:'Flauta', clarinete:'Clarinete', retro:'Videojuego retro', organo:'Órgano', synth:'Sintetizador'};
 function hashCod(s){ let h = 2166136261; for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h>>>0).toString(36).toUpperCase().padStart(7,'0').slice(-7); }
 function plano(s){ return String(s).replace(/\\dfrac\{([^}]*)\}\{([^}]*)\}/g,'$1/$2').replace(/\\\(|\\\)|\\\[|\\\]/g,'').replace(/\\[a-zA-Z]+/g, m => ({'\\omega':'ω','\\pi':'π','\\sen':'sen','\\cos':'cos','\\cdot':'·'})[m] || '').replace(/[{}]/g,'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(); }
+function puntaje(){
+  const actsTot = $$('.act[data-act]').filter(a => $('.opt', a)), vfsTot = $$('.juicio');
+  const aOk = actsTot.filter(a => { const o = $(`.opt[data-ans="${ST.acts[a.dataset.act]}"]`, a); return ST.acts[a.dataset.act]!==undefined && o && o.dataset.ok==='1'; }).length;
+  const vOk = vfsTot.filter(j => ST.vf[j.dataset.vf]===j.dataset.ok).length;
+  const nAct = actsTot.length + vfsTot.length;
+  const ejPts = EJ.reduce((s, e) => { const d = ST.ej[e.id] || {}; return s + (d.estado==='ok' ? (d.solVista ? 1.25 : 2.5) : 0); }, 0) * 12 / EJ.length;
+  const P = [
+    ['Actividades del recorrido', (aOk + vOk) * 30 / nAct, 30, `${aOk + vOk} de ${nAct} correctas`],
+    ['Ejercicios', ejPts, 30, `${practicaOk()} de ${EJ.length} resueltos`],
+    ['Cuestionario', quizOk() * 20 / DATOS.Q.length, 20, `${quizOk()} de ${DATOS.Q.length} correctas`],
+    ['Desafíos de sonido', Object.keys(RETO_NOM).filter(k => ST.retos && ST.retos[k]).length * 2, 10, `${Object.keys(RETO_NOM).filter(k => ST.retos && ST.retos[k]).length} de 5 logrados`],
+    ['Recorrido completo', SECS.filter(s => seccionCompleta(s[0])).length * 10 / SECS.length, 10, `${SECS.filter(s => seccionCompleta(s[0])).length} de ${SECS.length} secciones`]
+  ];
+  const total = Math.round(P.reduce((s, x) => s + x[1], 0) * 10) / 10;
+  return {P, total, nota: Math.round(total) / 10};
+}
+function mostrarPuntaje(){
+  const el = $('#repPuntaje'); if (!el) return;
+  const pt = puntaje();
+  el.innerHTML = `<div class="rep-total"><b>${fmt(pt.total, 1)}</b> de 100 <span>· nota ${fmt(pt.nota, 1)} sobre 10</span></div>` + pt.P.map(([n, v, m, d]) => `<div class="rep-fila"><span>${n}</span><span>${d}</span><b>${fmt(v, 1)} / ${m}</b></div>`).join('');
+}
 function datosReporte(){
   const R = [];
+  const pt = puntaje();
+  R.push(['Puntaje', [`Total: ${fmt(pt.total, 1)} de 100 · nota ${fmt(pt.nota, 1)} sobre 10`].concat(pt.P.map(([n, v, m, d]) => `${n}: ${fmt(v, 1)} de ${m} (${d})`))]);
   const nSec = SECS.filter(s => seccionCompleta(s[0])).length;
   const actsTot = $$('.act[data-act]').filter(a => $('.opt', a)), vfsTot = $$('.juicio');
   const actsResp = actsTot.filter(a => ST.acts[a.dataset.act]!==undefined);
@@ -1735,7 +1767,7 @@ function datosReporte(){
   R.push(['Somos capaces de…', marc.length ? marc : ['Ninguna marcada todavía.']]);
   const falta = SECS.filter(s => !seccionCompleta(s[0])).map(s => s[1]);
   if (falta.length) R.push(['Te falta completar', [falta.join(' · ')]]);
-  const firma = [ST.nombre, ST.curso, nSec, actsOk.length, vfOk.length, practicaOk(), quizOk(), sabe, retos.join(''), new Date().toISOString().slice(0,10)].join('|');
+  const firma = [ST.nombre, ST.curso, pt.total, nSec, actsOk.length, vfOk.length, practicaOk(), quizOk(), sabe, retos.join(''), new Date().toISOString().slice(0,10)].join('|');
   return {R, cod: hashCod(firma), fecha: new Date().toLocaleString('es-AR', {dateStyle:'short', timeStyle:'short'})};
 }
 function latin(s){ return String(s).replace(/✓/g,'•').replace(/→/g,'>').replace(/−/g,'-').replace(/ω/g,'w').replace(/π/g,'pi').replace(/·/g,'·').replace(/[«»]/g,'"').replace(/…/g,'...').replace(/ /g,' ').replace(/[^\x00-\xFF]/g,'?'); }
@@ -2048,12 +2080,11 @@ function tocarMelodia(k){
   try {
     if (ctx.state==='suspended') ctx.resume();
     const m = MELODIAS[k];
-    const re = new Float32Array(6), im = new Float32Array(6);
-    re[1] = CON.a1; re[3] = CON.a3; im[1] = CON.b1; im[2] = CON.b2; im[3] = CON.b3; im[5] = CON.b5;
-    const w = ctx.createPeriodicWave(re, im);
+    const ond = conOndas(ctx), w = ond.w;
+    if (!ond.g) return true;
     const voces = Math.max(...m.n.map(([, s]) => m.n.filter(x => x[1]===s).length));
-    const G = 0.18 / voces, t00 = ctx.currentTime + 0.05, t0 = t00 + 1.7;
-    { const o = ctx.createOscillator(), g = ctx.createGain(), G1 = 0.18; o.setPeriodicWave(w); o.frequency.value = 220;
+    const G = ond.g / voces, t00 = ctx.currentTime + 0.2, t0 = t00 + 1.7;
+    { const o = ctx.createOscillator(), g = ctx.createGain(), G1 = ond.g; o.setPeriodicWave(w); o.frequency.value = 220;
       g.gain.setValueAtTime(0, t00); g.gain.linearRampToValueAtTime(G1, t00+0.03); g.gain.setValueAtTime(G1, t00+1.25); g.gain.linearRampToValueAtTime(0, t00+1.4);
       o.connect(g); g.connect(ctx.destination); o.start(t00); o.stop(t00+1.45); }
     m.n.forEach(([f, s, d]) => {
@@ -2108,7 +2139,7 @@ function comprobarReto(k, silencioso){
     const fx = formulaCon();
     fb.innerHTML = `<b>¡Lo lograste! Suena a ${RETOS[k].nom}.</b> ${RETOS[k].ok} Vas a escuchar tu receta primero como nota sola, igual que en la consola, y después tocando unas notas.${fx}`;
     card.classList.add('ok');
-    if (!silencioso){ ST.retos = ST.retos || {}; ST.retos[k] = fx; ST.retosC = ST.retosC || {}; ST.retosC[k] = Object.assign({}, CON); guardar(); conParar(); avisoAudio(tocarMelodia(k)); }
+    if (!silencioso){ ST.retos = ST.retos || {}; ST.retos[k] = fx; ST.retosC = ST.retosC || {}; ST.retosC[k] = Object.assign({}, CON); guardar(); navDone(); conParar(); avisoAudio(tocarMelodia(k)); }
   } else fb.innerHTML = v.msj;
   tex(fb);
 }
