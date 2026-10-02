@@ -110,6 +110,10 @@ table.tabla{width:100%;border-collapse:collapse;font-size:.95rem;margin:10px 0}
 table.tabla th,table.tabla td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 table.tabla th{font:500 .7rem 'Fira Code',monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 table.tabla th .katex,table.tabla th .mfall{text-transform:none;letter-spacing:0;font-size:1.2em}
+table.magn td:first-child{white-space:nowrap;font-size:1.05rem}
+table.magn .mn{display:block;font:500 .78rem 'Hanken Grotesk',sans-serif;color:var(--muted)}
+table.magn .mu{display:block;font:500 .78rem 'Fira Code',monospace;color:var(--blue)}
+@media(max-width:480px){table.magn th,table.magn td{padding:7px 6px}}
 .tabla-wrap{overflow-x:auto;overflow-y:hidden !important;position:relative}
 ul.lista{padding-left:1.2em} ul.lista li{margin:.35em 0}
 figure.fig{margin:12px 0}
@@ -275,6 +279,44 @@ canvas{width:100%;height:auto;display:block;border-radius:10px;background:#fff;b
 .etapas div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
 .etapas b{display:block;font-family:'Fraunces',serif;font-weight:700;color:var(--navy)}
 .etapas span{font-size:.86rem;color:var(--muted)}
+.rep-card{border-top:4px solid var(--blue)}
+.rep-datos{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0 14px}
+.rep-datos label{display:flex;flex-direction:column;gap:4px;font-size:.88rem;color:var(--muted)}
+.rep-datos input{font:500 1rem 'Hanken Grotesk',sans-serif;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--navy)}
+@media (max-width:640px){.rep-datos{grid-template-columns:1fr}}
+.rep-aviso{min-height:1.2em;font-size:.9rem;color:var(--muted)}
+.rep-aviso.mal{color:#a2462b}
+.rep-aviso.bien{color:#1f5e33}
+#repPrint{display:none}
+@media print{body.rep-imprimir > *{display:none !important} body.rep-imprimir #repPrintWrap{display:block !important}}
+#repPrintWrap{display:none;font-family:'Hanken Grotesk',sans-serif;color:#202020;padding:10mm}
+#repPrintWrap h1{font-size:18pt;margin:0 0 4px} #repPrintWrap h2{font-size:12pt;color:#2B5A93;margin:14px 0 4px} #repPrintWrap p{margin:2px 0;font-size:10.5pt}
+.snd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin:12px 0 4px}
+.snd{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;border-top:4px solid var(--violet)}
+.snd-h{display:flex;flex-direction:column;gap:2px;margin-bottom:4px}
+.snd-h b{font-size:1.05rem;color:var(--navy)}
+.snd-r{font-size:.82rem;color:var(--violet)}
+.snd p{margin:.35em 0;font-size:.93rem}
+.snd-b{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.snd-q{color:var(--muted)}
+.snd-q b{color:var(--navy)}
+.snd-r2{margin-top:6px}
+.snd-r2 summary{cursor:pointer;font-weight:600;font-size:.88rem;color:var(--violet)}
+.snd-r2 p{background:#f3effa;border-radius:10px;padding:8px 12px;margin:.5em 0 0}
+.snd-otra{display:none}
+.snd.ok .snd-otra{display:inline-flex}
+.snd.ok{border-top-color:var(--green)}
+.snd-fb{font-size:.92rem;border-radius:10px;padding:0 12px}
+.snd-fb.mal{background:#fbf1e8;padding:8px 12px;color:#7a4a1e}
+.snd-f{margin-top:8px;padding-top:8px;border-top:1px solid rgba(31,94,51,.2);color:var(--navy)}
+.snd-fb.bien{background:#e9f4ec;padding:8px 12px;color:#1f5e33}
+.snd-r2{margin-top:6px}
+.snd-r2 summary{cursor:pointer;font-weight:600;font-size:.88rem;color:var(--violet)}
+.snd-r2 p{background:#f3effa;border-radius:10px;padding:8px 12px;margin:.5em 0 0}
+.con-son{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:12px 0 4px}
+.con-son .play-big .pb-ic{background:var(--violet)}
+.con-son .play-big.on{border-color:var(--violet);background:#f3effa}
+.con-son-n{flex:1;min-width:220px;font-size:.88rem;color:var(--muted)}
 .escucha{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0 6px}
 .play-big{display:inline-flex;align-items:center;gap:12px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 22px 8px 8px;cursor:pointer;font:600 1rem 'Hanken Grotesk',sans-serif;color:var(--navy);box-shadow:0 2px 8px rgba(20,30,50,.06)}
 .play-big:hover{border-color:var(--blue)}
@@ -490,11 +532,13 @@ details.como[open] summary{margin-bottom:8px}
     <div class="tt">Definición · señal periódica</div>
     \(f\) es <b>periódica de período \(T\)</b> (con \(T > 0\)) si para todo \(t\)
     \[f(t + T) = f(t).\]
-    El período es el tiempo, en segundos, que tarda la señal en completar un ciclo y volver a empezar. De él salen dos números más:
-    <ul class="lista">
-      <li>la <b>frecuencia</b> \(f_0 = \dfrac{1}{T}\), en hertz (Hz): cuántos ciclos entran en un segundo;</li>
-      <li>la <b>pulsación</b> \(\omega = \dfrac{2\pi}{T} = 2\pi f_0\), en radianes por segundo: cuánto avanza el ángulo en un segundo.</li>
-    </ul>
+    El período es el tiempo que tarda la señal en completar un ciclo y volver a empezar. De él salen dos números más, la <b>frecuencia</b> y la <b>pulsación</b>:
+    <div class="tabla-wrap"><table class="tabla magn">
+      <tr><th></th><th>se calcula</th><th>qué cuenta</th></tr>
+      <tr><td>\(T\)<span class="mn">período</span></td><td>se mide</td><td>segundos por ciclo<span class="mu">s</span></td></tr>
+      <tr><td>\(f_0\)<span class="mn">frecuencia</span></td><td>\(\dfrac{1}{T}\)</td><td>ciclos por segundo<span class="mu">Hz</span></td></tr>
+      <tr><td>\(\omega\)<span class="mn">pulsación</span></td><td>\(\dfrac{2\pi}{T} = 2\pi f_0\)</td><td>radianes por segundo<span class="mu">rad/s</span></td></tr>
+    </table></div>
   </div>
   <figure class="fig">
     <svg id="figPeriodo" viewBox="0 0 640 210" width="100%" style="max-width:640px;display:block;margin:0 auto" role="img" aria-label="Una sinusoide con el período T marcado entre dos crestas"></svg>
@@ -503,6 +547,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="nota">
     <div class="tt">El mismo fenómeno, dos idiomas</div>
     Frecuencia y pulsación miden lo mismo, la rapidez de la oscilación, en dos unidades distintas. Es como medir una velocidad en kilómetros por hora o en metros por segundo: el mismo fenómeno, otra unidad. Un ciclo completo son \(2\pi\) radianes; por eso \(\omega = 2\pi f_0\). Y un detalle de notación: \(f(t)\) es la señal (una función) y \(f_0\) es un número, su frecuencia. Por eso la frecuencia lleva siempre subíndice.
+    <p style="margin:.6em 0 0">En la serie de Fourier, \(\omega = \dfrac{2\pi}{T}\) será la <b>pulsación fundamental</b>, y los armónicos aparecerán como \(2\omega\), \(3\omega\), …, es decir, \(n\omega\).</p>
   </div>
   <div class="warn">
     <div class="tt">Condición para todo lo que sigue</div>
@@ -516,7 +561,7 @@ details.como[open] summary{margin-bottom:8px}
       <div class="paso"><button><span class="num">1</span> La frecuencia <span class="chev">▸</span></button>
         <div class="cont">\[f_0 = \dfrac{1}{T} = \dfrac{1}{0{,}02} = 50 \text{ Hz}.\] Entran \(50\) ciclos en cada segundo: por eso se dice que la red es «de \(50\) hertz».</div></div>
       <div class="paso"><button><span class="num">2</span> La pulsación <span class="chev">▸</span></button>
-        <div class="cont">\[\omega = 2\pi f_0 = 2\pi\cdot 50 = 100\pi \approx 314 \text{ rad/s}.\] Fijate el orden de magnitud: la pulsación es unas seis veces la frecuencia, porque \(2\pi \approx 6{,}28\).</div></div>
+        <div class="cont">\[\omega = 2\pi f_0 = 2\pi\cdot 50 = 100\pi \approx 314 \text{ rad/s}.\] El número de \(\omega\) es unas seis veces el de \(f_0\), porque \(2\pi \approx 6{,}28\). No oscila más rápido: es la misma rapidez contada en radianes en lugar de ciclos.</div></div>
       <div class="paso"><button><span class="num">3</span> Y el ventilador del principio <span class="chev">▸</span></button>
         <div class="cont">\(20\) vueltas por segundo es \(f_0 = 20\) Hz, así que cada vuelta tarda \(T = \dfrac{1}{20} = 0{,}05\) s. Período y frecuencia son inversos: si uno se duplica, el otro se reduce a la mitad.</div></div>
     </div>
@@ -591,7 +636,7 @@ details.como[open] summary{margin-bottom:8px}
     \[\cos(n\omega t),\qquad \sen(n\omega t),\qquad n = 1, 2, 3, \ldots\]
     se llaman <b>armónicos</b>. El de \(n = 1\) es la <b>fundamental</b>. El armónico \(n\) tiene
     \[\text{frecuencia } f_n = n\,f_0 \qquad\text{y período } \dfrac{T}{n}.\]
-    En un lapso \(T\), el armónico \(n\) completa <b>exactamente \(n\) ciclos</b>. Por eso todos caben justo en el período de la fundamental, y cualquier suma de armónicos vuelve a ser periódica de período \(T\).
+    En un lapso \(T\), el armónico \(n\) completa <b>exactamente \(n\) ciclos</b>. Por eso todos caben justo en el período de la fundamental, y cualquier suma de armónicos se repite cada \(T\). Puede repetirse antes solo si le falta la fundamental: por ejemplo, \(\sen(2t) + \sen(4t)\) ya se repite cada \(\pi\).
   </div>
 
   <div class="ejemplo">
@@ -641,7 +686,7 @@ details.como[open] summary{margin-bottom:8px}
   <div class="llevar"><div class="tt">Para llevarte</div><ul>
     <li>Multiplicar adentro, \(\sen(nt)\), acelera la onda; multiplicar afuera, \(A\,\sen t\), la agranda.</li>
     <li>Armónico \(n\): frecuencia \(n\,f_0\), período \(\dfrac{T}{n}\), \(n\) ciclos por período.</li>
-    <li>Toda suma de armónicos se repite con el período \(T\) de la fundamental.</li>
+    <li>Toda suma de armónicos se repite cada \(T\); si incluye la fundamental, \(T\) es su período.</li>
   </ul></div>
   <div class="sig"><button class="btn ghost" data-go="ladrillos">← 2 · Los ladrillos</button><button class="btn" data-go="receta">Seguir · 4 · La receta →</button></div>
 </section>
@@ -688,6 +733,8 @@ details.como[open] summary{margin-bottom:8px}
       <button class="chip" data-preset="sierra">Casi sierra</button>
       <button class="chip" data-preset="cero">Todo en cero</button>
     </div>
+    <div class="con-son"><button class="play-big" id="conPlay" aria-pressed="false"><span class="pb-ic">▶</span><span class="pb-tx">Escuchar la suma</span></button><span class="con-son-n">Suena a \(220\) Hz y cambia en vivo con cada perilla. El valor medio \(a_0\) no se oye: solo sube o baja la curva.</span></div>
+    <p class="aviso-audio" data-aviso-audio style="display:none"></p>
     <div class="sliders" id="conSliders"></div>
     <div class="readout" id="conRead"></div>
     <canvas id="conCanvas" width="800" height="290"></canvas>
@@ -705,6 +752,66 @@ details.como[open] summary{margin-bottom:8px}
     <div class="fb" data-fb="0">Exacto. Los coeficientes fijan las <b>proporciones</b> entre armónicos, es decir la forma; multiplicarlos a todos por el mismo número escala la señal. Y \(\dfrac{a_0}{2}\) es un número que se suma: corre la curva en bloque, hacia arriba o hacia abajo.</div>
     <div class="fb" data-fb="1">La rapidez la fija \(\omega\), que no tocaste. Mirá el eje horizontal: la curva se repite en el mismo lugar, solo que más alta.</div>
     <div class="fb" data-fb="2">Si todos los coeficientes se multiplican por el mismo número, las proporciones no cambian, y la forma tampoco. Y \(a_0\) no multiplica a ningún armónico: suma una constante.</div>
+  </div>
+
+  <h3>Cinco sonidos para construir</h3>
+  <p>Ahora la receta la armás vos. Arrancá en la consola con «Solo la fundamental», tocá «Escuchar la suma» y mové las perillas hasta lograr cada sonido. Cuando creas que lo tenés, tocá «Comprobar»: si está bien, vas a escuchar tu versión tocando una melodía.</p>
+  <div class="snd-grid">
+    <div class="snd" data-reto="flauta">
+      <div class="snd-h"><span class="snd-r">Desafío 1</span><b>Flauta</b></div>
+      <p>Casi pura: la fundamental, más un toque suave del armónico que suena una octava arriba.</p>
+      <div class="snd-b"><button class="chip" data-retock="flauta">Comprobar</button><button class="chip snd-otra" data-retoplay="flauta">▶ Escuchar mi versión</button></div>
+      <div class="snd-fb" data-retofb="flauta"></div>
+      <details class="snd-r2"><summary>Pista</summary><p>El armónico que suena una octava arriba es el 2: mové \(b_2\), pero poco.</p></details>
+      <details class="snd-r2"><summary>Ver una receta posible</summary><p>\(b_1 = 1\) y \(b_2 = 0{,}3\); todo lo demás en cero.</p></details>
+    </div>
+    <div class="snd" data-reto="clarinete">
+      <div class="snd-h"><span class="snd-r">Desafío 2</span><b>Clarinete</b></div>
+      <p>Solo armónicos impares, más chicos que la fundamental, y cada uno más chico que el anterior.</p>
+      <div class="snd-b"><button class="chip" data-retock="clarinete">Comprobar</button><button class="chip snd-otra" data-retoplay="clarinete">▶ Escuchar mi versión</button></div>
+      <div class="snd-fb" data-retofb="clarinete"></div>
+      <details class="snd-r2"><summary>Pista</summary><p>Los impares de la consola son 1, 3 y 5. Dejá \(b_2\) en cero y poné \(b_3\) y \(b_5\) por debajo de \(b_1\).</p></details>
+      <details class="snd-r2"><summary>Ver una receta posible</summary><p>\(b_1 = 1\), \(b_3 = 0{,}6\) y \(b_5 = 0{,}35\); todo lo demás en cero.</p></details>
+    </div>
+    <div class="snd" data-reto="retro">
+      <div class="snd-h"><span class="snd-r">Desafío 3</span><b>Videojuego retro</b></div>
+      <p>Los mismos ingredientes que el clarinete, pero con los armónicos altos tan fuertes como la fundamental.</p>
+      <div class="snd-b"><button class="chip" data-retock="retro">Comprobar</button><button class="chip snd-otra" data-retoplay="retro">▶ Escuchar mi versión</button></div>
+      <div class="snd-fb" data-retofb="retro"></div>
+      <details class="snd-r2"><summary>Pista</summary><p>Partí del clarinete y subí \(b_3\) y \(b_5\) hasta igualar a \(b_1\).</p></details>
+      <details class="snd-r2"><summary>Ver una receta posible</summary><p>\(b_1 = 1\), \(b_3 = 1\) y \(b_5 = 1\); todo lo demás en cero.</p></details>
+    </div>
+    <div class="snd" data-reto="organo">
+      <div class="snd-h"><span class="snd-r">Desafío 4</span><b>Órgano</b></div>
+      <p>Tres tubos suenan juntos: la fundamental, su octava y una quinta más arriba. Nada más.</p>
+      <div class="snd-b"><button class="chip" data-retock="organo">Comprobar</button><button class="chip snd-otra" data-retoplay="organo">▶ Escuchar mi versión</button></div>
+      <div class="snd-fb" data-retofb="organo"></div>
+      <details class="snd-r2"><summary>Pista</summary><p>Son los armónicos 1, 2 y 3, los tres bien presentes; \(b_5\) queda en cero.</p></details>
+      <details class="snd-r2"><summary>Ver una receta posible</summary><p>\(b_1 = 1\), \(b_2 = 0{,}8\) y \(b_3 = 0{,}6\); todo lo demás en cero.</p></details>
+    </div>
+    <div class="snd" data-reto="synth">
+      <div class="snd-h"><span class="snd-r">Desafío 5</span><b>Sintetizador</b></div>
+      <p>La onda sierra de los sintetizadores: todos los armónicos que tiene la consola, cada uno más chico que el anterior.</p>
+      <div class="snd-b"><button class="chip" data-retock="synth">Comprobar</button><button class="chip snd-otra" data-retoplay="synth">▶ Escuchar mi versión</button></div>
+      <div class="snd-fb" data-retofb="synth"></div>
+      <details class="snd-r2"><summary>Pista</summary><p>Usá \(b_1\), \(b_2\), \(b_3\) y \(b_5\). Como guía: \(b_2\) cerca de la mitad de \(b_1\), \(b_3\) cerca de un tercio y \(b_5\) cerca de un quinto.</p></details>
+      <details class="snd-r2"><summary>Ver una receta posible</summary><p>\(b_1 = 1\), \(b_2 = 0{,}5\), \(b_3 = 0{,}35\) y \(b_5 = 0{,}2\); \(a_0\), \(a_1\) y \(a_3\) en cero.</p></details>
+    </div>
+  </div>
+
+  <div class="act" data-act="rec3">
+    <div class="tt">Probalo · con los cinco sonidos</div>
+    <div class="q">En la consola, el clarinete y el videojuego retro suenan a la misma nota y usan los mismos ingredientes: \(b_1\), \(b_3\) y \(b_5\). ¿Por qué suenan tan distinto?</div>
+    <div class="opts">
+      <button class="opt" data-ans="0"><span class="k">A</span><span>Porque el clarinete usa senos y el videojuego usa cosenos.</span></button>
+      <button class="opt" data-ans="1" data-ok="1"><span class="k">B</span><span>Porque cambian las cantidades: en el videojuego, \(b_3\) y \(b_5\) pesan tanto como \(b_1\).</span></button>
+      <button class="opt" data-ans="2"><span class="k">C</span><span>Porque tienen distinto valor medio \(a_0\).</span></button>
+      <button class="opt" data-ans="3"><span class="k">D</span><span>Porque el videojuego esconde armónicos pares que el clarinete no tiene.</span></button>
+    </div>
+    <div class="fb" data-fb="0">Los dos usan solo senos: mirá las perillas, \(a_1\) y \(a_3\) quedan en cero. Lo que cambia es cuánto hay de cada armónico.</div>
+    <div class="fb" data-fb="1">Exacto. Los ingredientes son los mismos; cambia la receta. Cuanto más pesan los armónicos altos, más «brillante» y áspero suena. Eso es el timbre.</div>
+    <div class="fb" data-fb="2">El valor medio no se oye: solo sube o baja la curva. Y en los dos vale cero.</div>
+    <div class="fb" data-fb="3">En los dos, \(b_2\) vale cero: solo hay impares. La diferencia está en cuánto pesan \(b_3\) y \(b_5\).</div>
   </div>
 
   <div class="ejemplo">
@@ -1400,6 +1507,18 @@ details.como[open] summary{margin-bottom:8px}
   </div>
   <div class="readout" id="resumenProg"></div>
 
+  <div class="card rep-card" id="reporte">
+    <h3 style="margin-top:0">Reporte del recorrido</h3>
+    <p style="margin-top:0">Completá tus datos y descargá el reporte en PDF para subirlo a la tarea de Classroom. Resume lo que hiciste en cada sección, los ejercicios, el cuestionario, las tarjetas y los desafíos de sonido.</p>
+    <div class="rep-datos">
+      <label>Apellido y nombre<input type="text" id="repNombre" autocomplete="name" placeholder="Ej.: Pérez, Ana"></label>
+      <label>Curso y división<input type="text" id="repCurso" placeholder="Ej.: 5.º 2.ª"></label>
+    </div>
+    <button class="btn" id="btnRep">Descargar el reporte en PDF</button>
+    <p class="rep-aviso" id="repAviso"></p>
+  </div>
+  <div id="repPrint" aria-hidden="true"></div>
+
   <div class="card">
     <h3 style="margin-top:0">Reiniciar</h3>
     <p style="margin-top:0;color:var(--muted)">Borra lo guardado en este navegador: actividades, ejercicios, cuestionario, tarjetas y lista.</p>
@@ -1533,6 +1652,7 @@ function renderNav(){
 }
 function ir(id, silencioso){
   if (!IDS.includes(id)) return;
+  if (id !== 'receta' && typeof conParar === 'function') conParar();
   ST.sec = id;
   if (!ST.visitados.includes(id)) ST.visitados.push(id);
   if (!silencioso) guardar();
@@ -1575,6 +1695,86 @@ function navDone(){
   const r = $('#resumenProg'); if (r) r.innerHTML = `<span>secciones completas <b>${n}</b> de ${SECS.length}</span><span>ejercicios <b>${practicaOk()}</b> de 12</span><span>cuestionario <b>${quizOk()}</b> de ${DATOS.Q.length}</span><span>tarjetas que sabés <b>${Object.values(ST.fc.sabe).filter(Boolean).length}</b> de ${DATOS.F.length}</span>`;
 }
 
+
+/* ---------- reporte del recorrido ---------- */
+const RETO_NOM = {flauta:'Flauta', clarinete:'Clarinete', retro:'Videojuego retro', organo:'Órgano', synth:'Sintetizador'};
+function hashCod(s){ let h = 2166136261; for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return (h>>>0).toString(36).toUpperCase().padStart(7,'0').slice(-7); }
+function plano(s){ return String(s).replace(/\\dfrac\{([^}]*)\}\{([^}]*)\}/g,'$1/$2').replace(/\\\(|\\\)|\\\[|\\\]/g,'').replace(/\\[a-zA-Z]+/g, m => ({'\\omega':'ω','\\pi':'π','\\sen':'sen','\\cos':'cos','\\cdot':'·'})[m] || '').replace(/[{}]/g,'').replace(/<[^>]+>/g,'').replace(/\s+/g,' ').trim(); }
+function datosReporte(){
+  const R = [];
+  const nSec = SECS.filter(s => seccionCompleta(s[0])).length;
+  const actsTot = $$('.act[data-act]').filter(a => $('.opt', a)), vfsTot = $$('.juicio');
+  const actsResp = actsTot.filter(a => ST.acts[a.dataset.act]!==undefined);
+  const actsOk = actsResp.filter(a => { const o = $(`.opt[data-ans="${ST.acts[a.dataset.act]}"]`, a); return o && o.dataset.ok==='1'; });
+  const vfResp = vfsTot.filter(j => ST.vf[j.dataset.vf]!==undefined), vfOk = vfResp.filter(j => ST.vf[j.dataset.vf]===j.dataset.ok);
+  const retos = Object.keys(RETO_NOM).filter(k => ST.retos && ST.retos[k]);
+  const sabe = Object.values(ST.fc.sabe).filter(Boolean).length;
+  const pistas = Object.values(ST.ej).reduce((s, d) => s + (d.pistas||0), 0), sols = Object.values(ST.ej).filter(d => d.solVista).length;
+  R.push(['Resumen', [
+    `Secciones completas: ${nSec} de ${SECS.length}`,
+    `Actividades de opción múltiple: ${actsResp.length} de ${actsTot.length} respondidas, ${actsOk.length} bien`,
+    `Verdadero o falso: ${vfResp.length} de ${vfsTot.length} respondidas, ${vfOk.length} bien`,
+    `Ejercicios resueltos: ${practicaOk()} de ${EJ.length} (pistas usadas: ${pistas}; soluciones vistas: ${sols})`,
+    `Cuestionario: ${quizOk()} de ${DATOS.Q.length} correctas (${Object.keys(ST.quiz).length} respondidas)`,
+    `Tarjetas que sabés: ${sabe} de ${DATOS.F.length}`,
+    `Desafíos de sonido logrados: ${retos.length} de 5`,
+    `Lista «Somos capaces de…»: ${ST.checks.filter(Boolean).length} de 8 marcadas`]]);
+  R.push(['Secciones', SECS.map((s, i) => {
+    const a = actsDe(s[0]), v = vfsDe(s[0]);
+    const aOk = a.filter(x => { const act = $(`.act[data-act="${x}"]`), o = act && $(`.opt[data-ans="${ST.acts[x]}"]`, act); return o && o.dataset.ok==='1'; }).length;
+    const vOk = v.filter(x => { const j = $(`.juicio[data-vf="${x}"]`); return j && ST.vf[x]===j.dataset.ok; }).length;
+    let extra = [];
+    if (a.length) extra.push(`opción múltiple: ${aOk} de ${a.length} bien`);
+    if (v.length) extra.push(`V/F: ${vOk} de ${v.length} bien`);
+    return `${i} · ${s[1]}: ${seccionCompleta(s[0]) ? 'completa' : (ST.visitados.includes(s[0]) ? 'empezada' : 'sin abrir')}${extra.length ? ' (' + extra.join(', ') + ')' : ''}`;
+  })]);
+  R.push(['Ejercicios', EJ.map((e, i) => { const d = ST.ej[e.id] || {}; return `${i+1}. ${plano(e.tit)} (nivel ${e.nivel}): ${d.estado==='ok' ? 'resuelto' : d.estado==='no' ? 'con error' : 'sin hacer'}${d.pistas ? ' · pistas ' + d.pistas : ''}${d.solVista ? ' · vio la solución' : ''}`; })]);
+  R.push(['Cuestionario', [1,2,3,4].map(nv => { const idx = DATOS.Q.map((q, i) => q.nivel===nv ? i : -1).filter(i => i >= 0); return `${NIVELES[nv]}: ${idx.filter(i => ST.quiz[i]===DATOS.Q[i].ok).length} de ${idx.length}`; })]);
+  R.push(['Desafíos de sonido', Object.keys(RETO_NOM).map(k => { if (!(ST.retos && ST.retos[k])) return `${RETO_NOM[k]}: pendiente`; const c = ST.retosC && ST.retosC[k]; return `${RETO_NOM[k]}: logrado` + (c ? ' · ' + ['b1','b2','b3','b5','a1','a3'].filter(x => Math.abs(c[x]) > 1e-9).map(x => `${x[0]}${x[1]} = ${fmt(c[x])}`).join(', ') : ''); })]);
+  const marc = $$('#checks .check').map((l, i) => ST.checks[i] ? '✓ ' + plano(l.textContent) : null).filter(Boolean);
+  R.push(['Somos capaces de…', marc.length ? marc : ['Ninguna marcada todavía.']]);
+  const falta = SECS.filter(s => !seccionCompleta(s[0])).map(s => s[1]);
+  if (falta.length) R.push(['Te falta completar', [falta.join(' · ')]]);
+  const firma = [ST.nombre, ST.curso, nSec, actsOk.length, vfOk.length, practicaOk(), quizOk(), sabe, retos.join(''), new Date().toISOString().slice(0,10)].join('|');
+  return {R, cod: hashCod(firma), fecha: new Date().toLocaleString('es-AR', {dateStyle:'short', timeStyle:'short'})};
+}
+function latin(s){ return String(s).replace(/✓/g,'•').replace(/→/g,'>').replace(/−/g,'-').replace(/ω/g,'w').replace(/π/g,'pi').replace(/·/g,'·').replace(/[«»]/g,'"').replace(/…/g,'...').replace(/ /g,' ').replace(/[^\x00-\xFF]/g,'?'); }
+function slug(s){ return String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Za-z0-9]+/g,'-').replace(/^-|-$/g,'').toLowerCase() || 'alumno'; }
+function cargarScript(src, ms){ return new Promise((res, rej) => { const s = document.createElement('script'); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); setTimeout(() => rej(new Error('timeout')), ms||9000); }); }
+function imprimirReporte(d){
+  let w = $('#repPrintWrap'); if (!w){ w = document.createElement('div'); w.id = 'repPrintWrap'; document.body.appendChild(w); }
+  w.innerHTML = `<h1>El código de Fourier · Reporte del recorrido</h1><p>Escuela Philips · Matemática · 5.º año</p><p><b>${esc(ST.nombre)}</b>${ST.curso ? ' · ' + esc(ST.curso) : ''} · ${d.fecha} · código ${d.cod}</p>` + d.R.map(([t, ls]) => `<h2>${esc(t)}</h2>` + ls.map(l => `<p>${esc(l)}</p>`).join('')).join('');
+  document.body.classList.add('rep-imprimir'); setTimeout(() => { window.print(); setTimeout(() => document.body.classList.remove('rep-imprimir'), 500); }, 200);
+}
+async function descargarReporte(){
+  const av = $('#repAviso'); av.className = 'rep-aviso';
+  ST.nombre = $('#repNombre').value.trim(); ST.curso = $('#repCurso').value.trim(); guardar();
+  if (!ST.nombre){ av.className = 'rep-aviso mal'; av.textContent = 'Escribí tu apellido y nombre antes de descargar.'; $('#repNombre').focus(); return; }
+  const d = datosReporte();
+  av.textContent = 'Armando el PDF…';
+  try {
+    if (!(window.jspdf && window.jspdf.jsPDF)) await cargarScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    const doc = new window.jspdf.jsPDF({unit:'mm', format:'a4'});
+    const M = 18, W = 210 - 2*M; let y = 0;
+    const pie = () => { doc.setFontSize(8); doc.setFont('helvetica','normal'); doc.setTextColor(120,116,108); doc.text(latin(`${ST.nombre} · código ${d.cod} · ${d.fecha}`), M, 290); };
+    const nueva = () => { pie(); doc.addPage(); y = 20; };
+    const line = (txt, size, style, color, ind) => { doc.setFontSize(size||10.5); doc.setFont('helvetica', style||'normal'); if (color) doc.setTextColor(...color); else doc.setTextColor(32,32,28); doc.splitTextToSize(latin(txt), W - (ind||0)).forEach(l => { if (y > 280) nueva(); doc.text(l, M + (ind||0), y); y += (size||10.5)*0.47; }); y += 1.2; };
+    doc.setFillColor(15,34,68); doc.rect(0,0,210,26,'F');
+    doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(15); doc.text(latin('El código de Fourier · Reporte del recorrido'), M, 12);
+    doc.setFontSize(9); doc.setFont('helvetica','normal'); doc.text(latin('Escuela Philips · Matemática · 5.º año · laboratoriobest-IA'), M, 19);
+    y = 36;
+    line(`${ST.nombre}${ST.curso ? ' - ' + ST.curso : ''}`, 13, 'bold');
+    line(`Fecha: ${d.fecha} · Código de verificación: ${d.cod}`, 9.5, 'normal', [95,91,83]);
+    d.R.forEach(([t, ls]) => { y += 3; if (y > 270) nueva(); line(t, 12, 'bold', [43,90,147]); ls.forEach(l => line(l, 10, 'normal', null, 2)); });
+    pie();
+    const nombre = `reporte-fourier-${slug(ST.nombre)}.pdf`;
+    doc.save(nombre);
+    av.className = 'rep-aviso bien'; av.textContent = `Listo: se descargó ${nombre}. Subilo a la tarea de Classroom.`;
+  } catch(_){
+    av.className = 'rep-aviso mal'; av.textContent = 'No se pudo armar el PDF (¿sin conexión?). Se abre el diálogo de impresión: elegí «Guardar como PDF».';
+    imprimirReporte(d);
+  }
+}
 /* ---------- actividades ---------- */
 function responderAct(act, opt, silencioso){
   if (act.dataset.done) return;
@@ -1836,6 +2036,83 @@ const CON_KEYS = [
 ];
 const CON_PRESETS = { fund:{b1:1}, cuadrada:{b1:1.27, b3:0.42, b5:0.25}, triangulo:{a0:3.14, a1:-1.27, a3:-0.14}, sierra:{b1:2, b2:-1, b3:0.67, b5:0.4}, cero:{} };
 const CON = {a0:0, b1:1, b2:0, b3:0, b5:0, a1:0, a3:0};
+const MELODIAS = {
+  flauta:   {env:'sost', n:[[440,0,.4],[495,.4,.4],[550,.8,.4],[660,1.2,.9]]},
+  clarinete:{env:'sost', n:[[220,0,.42],[247.5,.42,.42],[275,.84,.42],[330,1.26,.42],[275,1.68,.9]]},
+  retro:    {env:'stac', n:[[440,0,.09],[550,.1,.09],[660,.2,.09],[880,.3,.09],[660,.45,.09],[880,.55,.5]]},
+  organo:   {env:'sost', n:[[220,0,2],[275,0,2],[330,0,2]]},
+  synth:    {env:'stac', n:[[110,0,.16],[110,.2,.16],[165,.4,.16],[110,.6,.16],[146.7,.8,.16],[165,1,.16],[220,1.2,.5]]}
+};
+function tocarMelodia(k){
+  const ctx = audioCtx(); if (!ctx) return false;
+  try {
+    if (ctx.state==='suspended') ctx.resume();
+    const m = MELODIAS[k];
+    const re = new Float32Array(6), im = new Float32Array(6);
+    re[1] = CON.a1; re[3] = CON.a3; im[1] = CON.b1; im[2] = CON.b2; im[3] = CON.b3; im[5] = CON.b5;
+    const w = ctx.createPeriodicWave(re, im);
+    const voces = Math.max(...m.n.map(([, s]) => m.n.filter(x => x[1]===s).length));
+    const G = 0.18 / voces, t00 = ctx.currentTime + 0.05, t0 = t00 + 1.7;
+    { const o = ctx.createOscillator(), g = ctx.createGain(), G1 = 0.18; o.setPeriodicWave(w); o.frequency.value = 220;
+      g.gain.setValueAtTime(0, t00); g.gain.linearRampToValueAtTime(G1, t00+0.03); g.gain.setValueAtTime(G1, t00+1.25); g.gain.linearRampToValueAtTime(0, t00+1.4);
+      o.connect(g); g.connect(ctx.destination); o.start(t00); o.stop(t00+1.45); }
+    m.n.forEach(([f, s, d]) => {
+      const o = ctx.createOscillator(), g = ctx.createGain(); o.setPeriodicWave(w); o.frequency.value = f;
+      const a = t0 + s;
+      g.gain.setValueAtTime(0, a);
+      if (m.env==='stac'){ g.gain.linearRampToValueAtTime(G, a+0.005); g.gain.setValueAtTime(G, a+d*0.7); g.gain.linearRampToValueAtTime(0, a+d); }
+      else { g.gain.linearRampToValueAtTime(G, a+0.06); g.gain.setValueAtTime(G, a+d-0.08); g.gain.linearRampToValueAtTime(0, a+d); }
+      o.connect(g); g.connect(ctx.destination); o.start(a); o.stop(a+d+0.05);
+    });
+    return true;
+  } catch(_){ return false; }
+}
+const RETOS = {
+  flauta: {nom:'una flauta', ok:'Una fundamental casi sola, con un toque de octava: por eso la flauta suena tan limpia.', reglas: r => [
+    [r[2] < 0.1, S`Falta el toque de la octava: subí un poco \(b_2\).`], [r[2] > 0.6, S`\(b_2\) está demasiado fuerte: en la flauta es apenas un toque.`],
+    [r[3] > 0.2, S`Sobra \(b_3\): la flauta es casi pura.`], [r[5] > 0.2, S`Sobra \(b_5\): la flauta es casi pura.`]]},
+  clarinete: {nom:'un clarinete', ok:'Solo impares, cada vez más chicos: ese es el sonido «hueco» del clarinete.', reglas: r => [
+    [r[2] > 0.1, S`Sobra \(b_2\): el clarinete tiene solo armónicos impares.`], [r[3] < 0.3, S`\(b_3\) es muy chico: el clarinete lo tiene bien presente.`],
+    [r[3] > 0.85, S`\(b_3\) está casi tan fuerte como la fundamental: bajalo un poco.`], [r[5] < 0.15, S`Falta \(b_5\): subilo un poco.`],
+    [r[5] >= r[3], S`\(b_5\) tiene que ser más chico que \(b_3\): cada impar, más chico que el anterior.`]]},
+  retro: {nom:'un videojuego retro', ok:'Los mismos impares que el clarinete, pero a pleno: por eso suena áspero y «electrónico».', reglas: r => [
+    [r[2] > 0.1, S`Sobra \(b_2\): este sonido usa solo impares.`], [r[3] < 0.85, S`Subí \(b_3\) hasta que sea tan fuerte como \(b_1\).`], [r[5] < 0.85, S`Subí \(b_5\) hasta que sea tan fuerte como \(b_1\).`]]},
+  organo: {nom:'un órgano', ok:'Fundamental, octava y quinta sonando juntas: un sonido lleno, de varios tubos a la vez.', reglas: r => [
+    [r[2] < 0.4, S`Falta la octava: subí \(b_2\).`], [r[3] < 0.3, S`Falta la quinta de arriba: subí \(b_3\).`], [r[5] > 0.1, S`Sobra \(b_5\): el órgano de este desafío tiene solo tres tubos.`]]},
+  synth: {nom:'un sintetizador', ok:'Pares e impares, cada uno más chico que el anterior: la onda sierra, el sonido más brillante de la consola.', reglas: r => [
+    [r[2] < 0.25, S`Falta \(b_2\): la sierra tiene también armónicos pares.`], [r[2] > 0.8, S`\(b_2\) está muy fuerte: tiene que ser bastante más chico que \(b_1\).`],
+    [r[3] < 0.15, S`Falta \(b_3\): subilo un poco.`], [r[3] >= r[2], S`\(b_3\) tiene que ser más chico que \(b_2\).`],
+    [r[5] < 0.08, S`Falta \(b_5\): subilo un poco.`], [r[5] >= r[3], S`\(b_5\) tiene que ser más chico que \(b_3\).`]]}
+};
+function formulaCon(){
+  const t = [];
+  const term = (c, base) => { if (Math.abs(c) < 1e-9) return; const v = fmtM(Math.abs(c)); const coef = v==='1' ? '' : v + '\\,'; t.push([c < 0 ? '-' : '+', coef + base]); };
+  if (Math.abs(CON.a0) > 1e-9) t.push([CON.a0 < 0 ? '-' : '+', fmtM(Math.abs(CON.a0/2))]);
+  term(CON.b1, '\\sen(\\omega t)'); term(CON.b2, '\\sen(2\\omega t)'); term(CON.b3, '\\sen(3\\omega t)'); term(CON.b5, '\\sen(5\\omega t)');
+  term(CON.a1, '\\cos(\\omega t)'); term(CON.a3, '\\cos(3\\omega t)');
+  const s = t.map(([sg, x], i) => (i===0 ? (sg==='-' ? '-' : '') : ' ' + sg + ' ') + x).join('');
+  return `<div class="snd-f">Tu fórmula: \\(f(t) = ${s}\\), con \\(\\omega = 2\\pi\\cdot 220 \\approx 1382\\) rad/s.</div>`;
+}
+function evaluarReto(k){
+  const A1 = Math.hypot(CON.b1, CON.a1);
+  if (A1 < 0.3) return {ok:false, msj:S`Primero necesitás la fundamental: subí \(b_1\).`};
+  const r = {2: Math.abs(CON.b2)/A1, 3: Math.hypot(CON.b3, CON.a3)/A1, 5: Math.abs(CON.b5)/A1};
+  const mal = RETOS[k].reglas(r).filter(([c]) => c).map(([, m]) => m);
+  return mal.length ? {ok:false, msj: 'Todavía no. ' + mal[0]} : {ok:true};
+}
+function comprobarReto(k, silencioso){
+  const card = $(`.snd[data-reto="${k}"]`), fb = $(`[data-retofb="${k}"]`); if (!card) return;
+  const v = evaluarReto(k);
+  fb.classList.toggle('bien', v.ok); fb.classList.toggle('mal', !v.ok);
+  if (v.ok){
+    const fx = formulaCon();
+    fb.innerHTML = `<b>¡Lo lograste! Suena a ${RETOS[k].nom}.</b> ${RETOS[k].ok} Vas a escuchar tu receta primero como nota sola, igual que en la consola, y después tocando unas notas.${fx}`;
+    card.classList.add('ok');
+    if (!silencioso){ ST.retos = ST.retos || {}; ST.retos[k] = fx; ST.retosC = ST.retosC || {}; ST.retosC[k] = Object.assign({}, CON); guardar(); conParar(); avisoAudio(tocarMelodia(k)); }
+  } else fb.innerHTML = v.msj;
+  tex(fb);
+}
+
 function initCon(){
   $('#conSliders').innerHTML = CON_KEYS.map(d => `<label>\\(${d.tex}\\) = <b data-cval="${d.k}">${fmt(CON[d.k])}</b><input type="range" data-coef="${d.k}" min="${d.min}" max="${d.max}" step="${d.step}" value="${CON[d.k]}" aria-label="coeficiente ${d.k}"></label>`).join('');
 }
@@ -1844,6 +2121,36 @@ function presetCon(p){
   CON_KEYS.forEach(d => { CON[d.k] = v[d.k]!==undefined ? v[d.k] : 0; const s = $(`[data-coef="${d.k}"]`); if (s) s.value = CON[d.k]; });
   $$('#conPresets .chip').forEach(c => c.classList.toggle('on', c.dataset.preset===p));
   drawCon();
+}
+let conOsc = null, conGain = null;
+function conOndas(ctx){
+  const re = new Float32Array(6), im = new Float32Array(6);
+  re[1] = CON.a1; re[3] = CON.a3; im[1] = CON.b1; im[2] = CON.b2; im[3] = CON.b3; im[5] = CON.b5;
+  let pico = 0; for (let i=0;i<=400;i++){ const t = -PI + 2*PI*i/400; pico = Math.max(pico, Math.abs(fCon(t) - CON.a0/2)); }
+  return { w: ctx.createPeriodicWave(re, im, {disableNormalization:true}), g: pico < 1e-6 ? 0 : Math.min(0.12, 0.9/pico) };
+}
+function conActualizar(){
+  if (!conOsc) return;
+  try { const ctx = audioCtx(), o = conOndas(ctx); conOsc.setPeriodicWave(o.w); conGain.gain.setTargetAtTime(o.g, ctx.currentTime, 0.02); } catch(_){}
+}
+function conParar(){
+  if (!conOsc) return;
+  try { const ctx = audioCtx(), t0 = ctx.currentTime; conGain.gain.cancelScheduledValues(t0); conGain.gain.setTargetAtTime(0, t0, 0.02); conOsc.stop(t0 + 0.15); } catch(_){}
+  conOsc = null; conGain = null;
+  const b = $('#conPlay'); if (b){ b.classList.remove('on'); b.setAttribute('aria-pressed','false'); $('.pb-ic', b).textContent = '▶'; $('.pb-tx', b).textContent = 'Escuchar la suma'; }
+}
+function conTocar(){
+  if (conOsc){ conParar(); return; }
+  const ctx = audioCtx(); if (!ctx){ avisoAudio(false); return; }
+  try {
+    if (ctx.state==='suspended') ctx.resume();
+    const o = conOndas(ctx);
+    conOsc = ctx.createOscillator(); conOsc.frequency.value = 220; conOsc.setPeriodicWave(o.w);
+    conGain = ctx.createGain(); const t0 = ctx.currentTime; conGain.gain.setValueAtTime(0, t0); conGain.gain.setTargetAtTime(o.g, t0, 0.03);
+    conOsc.connect(conGain); conGain.connect(ctx.destination); conOsc.start(t0);
+    const b = $('#conPlay'); b.classList.add('on'); b.setAttribute('aria-pressed','true'); $('.pb-ic', b).textContent = '■'; $('.pb-tx', b).textContent = 'Detener';
+    avisoAudio(true);
+  } catch(_){ conOsc = null; conGain = null; avisoAudio(false); }
 }
 const fCon = t => CON.a0/2 + CON.b1*Math.sin(t) + CON.b2*Math.sin(2*t) + CON.b3*Math.sin(3*t) + CON.b5*Math.sin(5*t) + CON.a1*Math.cos(t) + CON.a3*Math.cos(3*t);
 function drawCon(){
@@ -1856,6 +2163,7 @@ function drawCon(){
   [['b1', t => CON.b1*Math.sin(t)], ['b2', t => CON.b2*Math.sin(2*t)], ['b3', t => CON.b3*Math.sin(3*t)], ['b5', t => CON.b5*Math.sin(5*t)], ['a1', t => CON.a1*Math.cos(t)], ['a3', t => CON.a3*Math.cos(3*t)]].forEach(([k, fn]) => { if (Math.abs(CON[k]) > 1e-9) curva(ctx, X, Y, fn, -PI, PI, 'rgba(110,78,170,.25)', 1.2); });
   if (Math.abs(CON.a0) > 1e-9) curva(ctx, X, Y, () => CON.a0/2, -PI, PI, 'rgba(199,122,64,.8)', 1.4, [5,4]);
   curva(ctx, X, Y, fCon, -PI, PI, '#6E4EAA', 2.6);
+  conActualizar();
   ctx.font = '600 12px "Hanken Grotesk", sans-serif'; ctx.textAlign = 'left';
   ctx.fillStyle = '#6E4EAA'; ctx.fillText('— la suma', 52, 16); ctx.fillStyle = 'rgba(110,78,170,.6)'; ctx.fillText('— cada armónico', 140, 16); ctx.fillStyle = '#C77A40'; ctx.fillText('— — valor medio', 270, 16);
   const senos = ['b1','b2','b3','b5'].filter(k => Math.abs(CON[k]) > 1e-9), cosenos = ['a1','a3'].filter(k => Math.abs(CON[k]) > 1e-9);
@@ -2215,6 +2523,8 @@ function fcMezclar(){ const a = ST.fc.orden.slice(); for (let k=a.length-1;k>0;k
 
 /* ---------- restauración ---------- */
 function restaurar(){
+  if (ST.nombre) $('#repNombre').value = ST.nombre; if (ST.curso) $('#repCurso').value = ST.curso;
+  Object.keys(ST.retos||{}).forEach(k => { const c = $(`.snd[data-reto="${k}"]`), f = $(`[data-retofb="${k}"]`); if (c && RETOS[k]){ c.classList.add('ok'); f.classList.add('bien'); f.innerHTML = `<b>¡Lo lograste! Suena a ${RETOS[k].nom}.</b> ${RETOS[k].ok}` + (typeof ST.retos[k]==='string' ? ST.retos[k] : ''); tex(f); } });
   Object.entries(ST.acts).forEach(([id, ans]) => { const act = $(`.act[data-act="${id}"]`); const opt = act && $(`.opt[data-ans="${ans}"]`, act); if (opt) responderAct(act, opt, true); });
   Object.entries(ST.vf).forEach(([id, v]) => { const j = $(`.juicio[data-vf="${id}"]`); if (j) responderVF(j, v, true); });
   Object.entries(ST.mini).forEach(([id, d]) => { if (d && d.vals && MINI[id]){ Object.entries(d.vals).forEach(([k, v]) => { const i = $(`input[data-mini="${id}"][data-k="${k}"]`); if (i) i.value = v; }); miniCheck(id, true); } });
@@ -2246,6 +2556,9 @@ document.addEventListener('click', e => {
   const as = t.closest('[data-aseek]'); if (as){ seek($('#aud'), +as.dataset.aseek); return; }
   if (t.closest('[data-cerrar]') || t.classList.contains('media-modal')){ $$('.media-modal').forEach(m => m.classList.remove('show')); pausarMedios(); return; }
   const pl = t.closest('[data-play]'); if (pl){ avisoAudio(tocar([], SONIDOS[pl.dataset.play], 1.4)); return; }
+  if (t.closest('#conPlay')){ conTocar(); return; }
+  const rc = t.closest('[data-retock]'); if (rc){ comprobarReto(rc.dataset.retock); return; }
+  const rp = t.closest('[data-retoplay]'); if (rp){ conParar(); avisoAudio(tocarMelodia(rp.dataset.retoplay)); return; }
   const pr = t.closest('[data-preset]'); if (pr){ presetCon(pr.dataset.preset); return; }
   const ci = t.closest('[data-cin]'); if (ci){ cinN = +ci.dataset.cin; drawCin(); return; }
   const tb = t.closest('[data-timbre]'); if (tb){ timSel = +tb.dataset.timbre; drawTim(); avisoAudio(tocar([], TIMBRES[timSel].c, 1.4, +$('#timVol').value)); return; }
@@ -2261,6 +2574,7 @@ document.addEventListener('click', e => {
   if (t.closest('#fcSi')){ fcMarcar(true); return; } if (t.closest('#fcNo')){ fcMarcar(false); return; }
   if (t.closest('#fcMezclar')){ fcMezclar(); return; }
   if (t.closest('#btnReset')){ resetear(); return; }
+  if (t.closest('#btnRep')){ descargarReporte(); return; }
   if (t.closest('#modalSi')){ if (modalCb) modalCb(); else cerrarModal(); return; }
   if (t.closest('#modalNo') || t.id==='modal'){ cerrarModal(); return; }
 });
@@ -2386,6 +2700,7 @@ function start(){
     m.addEventListener('error', falla, true); const src = $('source', m); if (src) src.addEventListener('error', falla);
   });
   $$('img[src="poster.jpg"]').forEach(im => im.addEventListener('error', () => { im.style.display = 'none'; }));
+  document.addEventListener('visibilitychange', () => { if (document.hidden) conParar(); });
   if (/[?&]test\b/.test(location.search)) correrTests();
 }
 if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', () => setTimeout(start, 0)); else setTimeout(start, 0);
